@@ -66,5 +66,32 @@ namespace Library
             // Return the stored connection string
             return connection.ConnectionString;
         }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            string title = textTitle.Text;
+            string author = textAuthor.Text;
+
+            if (Mode)
+            {
+                sql = "insert into Book(BookTitle, Author) values(@title, @author)";
+                connection.Open();
+                cmd = new SqlCommand(sql, connection);
+                cmd.Parameters.AddWithValue("@title", title);
+                cmd.Parameters.AddWithValue("@author", author);
+                MessageBox.Show("Record added");
+                cmd.ExecuteNonQuery();
+
+                textTitle.Clear();
+                textAuthor.Clear();
+                textTitle.Focus();
+            }
+            else
+            {
+
+            }
+
+            connection.Close();
+        }
     }
 }
