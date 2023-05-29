@@ -74,7 +74,7 @@ namespace Library
 
             if (Mode)
             {
-                sql = "insert into Book(BookTitle, Author) values(@title, @author)";
+                sql = "insert into testing_book(BookTitle, Author) values(@title, @author)";
                 connection.Open();
                 cmd = new SqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@title", title);
