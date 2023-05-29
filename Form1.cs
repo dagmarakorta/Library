@@ -11,6 +11,7 @@ namespace Library
         private SqlConnection connection;
         private SqlCommand cmd;
         private SqlDataReader reader;
+        SqlDataAdapter drr;
         private bool Mode = true;
         private string id;
         private string sql;
@@ -71,14 +72,16 @@ namespace Library
         {
             string title = textTitle.Text;
             string author = textAuthor.Text;
+            string customer = textCustomer.Text;
 
             if (Mode)
             {
-                sql = "insert into testing_book(BookTitle, Author) values(@title, @author)";
+                sql = "insert into testing_book(BookTitle, Author, Customer) values(@title, @author, @customer)";
                 connection.Open();
                 cmd = new SqlCommand(sql, connection);
                 cmd.Parameters.AddWithValue("@title", title);
                 cmd.Parameters.AddWithValue("@author", author);
+                cmd.Parameters.AddWithValue("@customer", customer);
                 MessageBox.Show("Record added");
                 cmd.ExecuteNonQuery();
 
@@ -92,6 +95,33 @@ namespace Library
             }
 
             connection.Close();
+        }
+
+        public void Load()
+        {
+            try
+            {
+                sql = "select * from testing_book";
+                cmd = new SqlCommand(sql, connection);
+                connection.Open();
+
+                reader = cmd.ExecuteReader();
+
+                dataGridLibrary.Rows.Clear();
+
+                while(reader.Read())
+                {
+                    dataGridLibrary.Rows.Add(reader[0], reader[1], reader[2], reader[3]);
+                }
+
+                connection.Close();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
