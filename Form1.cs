@@ -21,6 +21,7 @@ namespace Library
             InitializeComponent();
             LoadConfiguration();
             connection = new SqlConnection(GetConnectionString());
+            Load();
         }
 
 
