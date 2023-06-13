@@ -24,6 +24,32 @@ namespace Library
             Load();
         }
 
+        public void Load()
+        {
+            try
+            {
+                sql = "select * from testing_book";
+                cmd = new SqlCommand(sql, connection);
+                connection.Open();
+
+                reader = cmd.ExecuteReader();
+
+                dataGridLibrary.Rows.Clear();
+
+                while (reader.Read())
+                {
+                    dataGridLibrary.Rows.Add(reader[0], reader[1], reader[2], reader[3]);
+                }
+
+                connection.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         private void label4_Click(object sender, EventArgs e)
         {
@@ -88,6 +114,7 @@ namespace Library
 
                 textTitle.Clear();
                 textAuthor.Clear();
+                textCustomer.Clear();
                 textTitle.Focus();
             }
             else
@@ -96,33 +123,7 @@ namespace Library
             }
 
             connection.Close();
-        }
-
-        public void Load()
-        {
-            try
-            {
-                sql = "select * from testing_book";
-                cmd = new SqlCommand(sql, connection);
-                connection.Open();
-
-                reader = cmd.ExecuteReader();
-
-                dataGridLibrary.Rows.Clear();
-
-                while(reader.Read())
-                {
-                    dataGridLibrary.Rows.Add(reader[0], reader[1], reader[2], reader[3]);
-                }
-
-                connection.Close();
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            Load();
         }
     }
 }
