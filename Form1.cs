@@ -124,5 +124,32 @@ namespace Library
                 throw;
             }
         }
+
+        public void getID(string id)
+        {
+            sql = "select * from testing_book where id='" + id + "' ";
+            cmd = new SqlCommand(sql, connection);
+            connection.Open();
+            reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                textTitle.Text = reader[1].ToString();
+                textAuthor.Text = reader[2].ToString();
+                textCustomer.Text = reader[3].ToString();
+            }
+
+            connection.Close(); 
+        }
+
+        private void dataGridLibrary_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridLibrary.Columns["Edit"].Index && e.RowIndex >= 0)
+            {
+                Mode = false;
+                id = dataGridLibrary.CurrentRow.Cells[0].Value.ToString();
+                getID(id);
+            }
+        }
     }
 }
